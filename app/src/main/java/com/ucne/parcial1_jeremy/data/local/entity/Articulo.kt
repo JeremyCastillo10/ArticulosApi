@@ -10,5 +10,4 @@ data class Articulo (
     val descripcion: String = "",
     val marca: String = "",
     val existencia: Double = 0.0,
-
     )

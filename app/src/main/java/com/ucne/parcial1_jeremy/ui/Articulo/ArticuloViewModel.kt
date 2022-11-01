@@ -13,10 +13,7 @@ import com.ucne.parcial1_jeremy.repository.ApiArticulosRepository
 import com.ucne.parcial1_jeremy.repository.ArticuloRepository
 import com.ucne.parcial1_jeremy.ui.ArticuloList.ArticuloListUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.getAndUpdate
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -25,7 +22,6 @@ import javax.inject.Inject
 class ArticuloViewModel @Inject constructor(
     val repository: ApiArticulosRepository
 ):ViewModel() {
-    var articuloId by mutableStateOf("")
     var descripcion by mutableStateOf("")
     var marca by mutableStateOf("")
     var precio by mutableStateOf("")
@@ -47,25 +43,14 @@ class ArticuloViewModel @Inject constructor(
             )
         }
     }
-
-    /*fun Delete() {
-        viewModelScope.launch {
-            repository.DeleteApiArticulos(
-                uiState. {
-                    it.copy(articulo = repository.GetApiArticulos().sortedBy {
-                        it.ariticuloId
-                    })
-                }
-            )
-        }
-    }*/
-
-    /*fun Update()
+    fun refresh()
     {
         viewModelScope.launch {
-            var encontrado : Boolean = false
-            if(repository.Buscar(articuloId) == encontrado)
+            _uiState.getAndUpdate {
+                it.copy(articulo = repository.GetApiArticulos().sortedBy { it.ariticuloId })
+            }
         }
-    }*/
+    }
+
 
 }
